@@ -9,6 +9,7 @@ jobs:
   build-macos-x86:
     name: macOS x86_64 Build
     runs-on: macos-13
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -39,6 +40,7 @@ jobs:
   build-macos-arm64:
     name: macOS aarch64 Build
     runs-on: macos-14
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -69,6 +71,7 @@ jobs:
   build-windows:
     name: Windows Build
     runs-on: windows-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
 
@@ -100,6 +103,7 @@ jobs:
   build-linux:
     name: Linux Build
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
