@@ -25,4 +25,7 @@ Copy-Item -Force $distBin $targetBin
 
 Set-Location $desktopRoot
 npm install
-npx tauri build --target $hostTriple
+npx tauri build --bundles msi,nsis
+if ($LASTEXITCODE -ne 0) {
+    throw "Tauri build failed."
+}

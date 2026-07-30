@@ -8,29 +8,31 @@ $browsersRoot = Join-Path $buildRoot "ms-playwright"
 New-Item -ItemType Directory -Force -Path $browsersRoot | Out-Null
 
 $pythonExe = $env:PYTHON_BIN
-$pythonArgs = @()
 if (-not $pythonExe) {
     if (Get-Command py -ErrorAction SilentlyContinue) {
         $pythonExe = "py"
         $pythonArgs = @("-3")
     } elseif (Get-Command python -ErrorAction SilentlyContinue) {
         $pythonExe = "python"
+        $pythonArgs = @()
     } else {
         throw "Python 3.9+ was not found."
     }
-}
-
-function Invoke-Python {
-    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$Args)
-    & $pythonExe @pythonArgs @Args
-    if ($LASTEXITCODE -ne 0) {
-        throw "Command failed: $pythonExe $($pythonArgs + $Args -join ' ')"
-    }
+} else {
+    $pythonArgs = @()
 }
 
 Set-Location $projectRoot
 
-Invoke-Python -m pip install -e ".[desktop]"
+& $pythonExe @pythonArgs -m pip install --upgrade pip setuptools wheel
+if ($LASTEXITCODE -ne 0) { throw "pip upgrade failed" }
+
+& $pythonExe @pythonArgs -m pip install -e ".[desktop]"
+if ($LASTEXITCODE -ne 0) { throw "pip install failed" }
+
 $env:PLAYWRIGHT_BROWSERS_PATH = $browsersRoot
-Invoke-Python -m playwright install firefox
-Invoke-Python -m PyInstaller desktop/sidecar/receiver_sidecar.spec --noconfirm --clean
+& $pythonExe @pythonArgs -m playwright install firefox
+if ($LASTEXITCODE -ne 0) { throw "playwright install failed" }
+
+& $pythonExe @pythonArgs -m PyInstaller desktop/sidecar/receiver_sidecar.spec --noconfirm --clean
+if ($LASTEXITCODE -ne 0) { throw "PyInstaller failed" }

@@ -22,4 +22,4 @@ chmod +x "$TARGET_BIN"
 
 cd "$DESKTOP_ROOT"
 npm install
-npx tauri build --target "$HOST_TRIPLE"
+npx tauri build --bundles deb
