@@ -1,0 +1,37 @@
+platformId: explorerglobal
+displayName: 知天下
+entryUrl: https://3d.explorerglobal.cn/compute
+minImageCountExclusive: 88
+allowedDomains:
+  - 3d.explorerglobal.cn
+  - model-api.explorerglobal.cn
+profileDirName: explorerglobal
+login:
+  unauthenticatedText:
+    - 请先登录
+    - 登录
+  onUnauthenticated: pause_for_user
+form:
+  title:
+    placeholder: 请输入作品名称
+    valueTemplate: "{taskName}"
+  imageFolderUpload:
+    text: 文件夹(照片)
+    source: "{datasetImages}"
+  cameraType:
+    triggerText: 请选择镜头类型
+    optionText: 透视镜头
+  submit:
+    text: 上传计算
+observe:
+  success:
+    network:
+      host: model-api.explorerglobal.cn
+      pathContains:
+        - /api/user/models/
+        - /submit
+      status: 200
+  failureText:
+    - 图片数量不足
+    - 上传失败
+    - 请先登录
