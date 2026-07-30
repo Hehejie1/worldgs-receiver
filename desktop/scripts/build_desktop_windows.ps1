@@ -25,4 +25,4 @@ Copy-Item -Force $distBin $targetBin
 
 Set-Location $desktopRoot
 npm install
-npx tauri build --target $hostTriple --bundles msi,nsis
+npx tauri build --target $hostTriple
