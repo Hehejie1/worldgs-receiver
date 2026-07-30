@@ -8,22 +8,10 @@ BINARIES_ROOT="$DESKTOP_ROOT/src-tauri/binaries"
 DIST_BIN="$PROJECT_ROOT/dist/receiver_sidecar"
 TAURI_CONFIG_PATH="$DESKTOP_ROOT/src-tauri/tauri.conf.json"
 
-if [[ -n "${WORLDGS_RUST_BIN_DIR:-}" ]]; then
-  export PATH="$WORLDGS_RUST_BIN_DIR:$PATH"
-elif [[ -x "$HOME/.cargo/bin/rustup" ]]; then
-  export PATH="$HOME/.cargo/bin:$PATH"
-fi
+export PATH="$HOME/.cargo/bin:$PATH"
 
 if [[ -n "${MACOS_TARGET_TRIPLE:-}" ]]; then
   HOST_TRIPLE="$MACOS_TARGET_TRIPLE"
-elif [[ -n "${WORLDGS_RUST_BIN_DIR:-}" ]]; then
-  HOST_TRIPLE="$(rustc --print host-tuple 2>/dev/null || rustc -Vv | awk '/host:/ {print $2}')"
-elif [[ "$(sysctl -in hw.optional.arm64 2>/dev/null || echo 0)" == "1" ]] && command -v rustup >/dev/null 2>&1 && rustup run stable-aarch64-apple-darwin rustc -vV >/dev/null 2>&1; then
-  HOST_TRIPLE="aarch64-apple-darwin"
-  export RUSTUP_TOOLCHAIN="${RUSTUP_TOOLCHAIN:-stable-aarch64-apple-darwin}"
-elif command -v rustup >/dev/null 2>&1 && rustup run stable-x86_64-apple-darwin rustc -vV >/dev/null 2>&1; then
-  HOST_TRIPLE="x86_64-apple-darwin"
-  export RUSTUP_TOOLCHAIN="${RUSTUP_TOOLCHAIN:-stable-x86_64-apple-darwin}"
 else
   HOST_TRIPLE="$(rustc --print host-tuple 2>/dev/null || rustc -Vv | awk '/host:/ {print $2}')"
 fi
@@ -61,7 +49,6 @@ cp "$DIST_BIN" "$TARGET_BIN"
 chmod +x "$TARGET_BIN"
 
 cd "$DESKTOP_ROOT"
-export npm_config_registry="${NPM_CONFIG_REGISTRY:-https://registry.npmjs.org}"
 npm install
 npx tauri build --target "$HOST_TRIPLE" --bundles app
 
