@@ -27,10 +27,6 @@ jobs:
         with:
           targets: x86_64-apple-darwin
 
-      - name: Install system dependencies
-        run: |
-          brew install create-dmg || true
-
       - name: Build desktop app
         run: |
           export MACOS_TARGET_TRIPLE=x86_64-apple-darwin
