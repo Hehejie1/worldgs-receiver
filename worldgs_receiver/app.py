@@ -61,11 +61,13 @@ MODEL_SHARE_ID_PREFIX = "sh_"
 
 def create_app(config: ReceiverConfig, automation_enabled: bool = True) -> FastAPI:
     app = FastAPI(title="WorldGS Receiver")
-    app.mount(
-        "/static",
-        StaticFiles(directory=Path(__file__).resolve().parent / "static"),
-        name="static",
-    )
+    static_dir = Path(__file__).resolve().parent / "static"
+    if static_dir.is_dir():
+        app.mount(
+            "/static",
+            StaticFiles(directory=static_dir),
+            name="static",
+        )
     security = HTTPBasic()
     pairing_store = PairingStore(
         ttl_seconds=config.token_ttl_seconds,

@@ -1,0 +1,29 @@
+platform: pointcosm
+baseUrl: https://www.pointcosm.cn/
+browser:
+  engine: firefox
+  headed: true
+  profileDir: profile
+inputs:
+  packagePath: "{package_path}"
+  extractedPath: "{extracted_path}"
+steps:
+  - id: open_home
+    action:
+      type: goto
+      url: https://www.pointcosm.cn/
+    observe:
+      successAny:
+        - urlContains: pointcosm.cn
+      timeoutSeconds: 30
+      onUnknown: pause_for_user
+  - id: wait_login
+    action:
+      type: wait_for_user
+      prompt: 请在 Firefox 中完成登录和项目选择，完成后回到 Receiver 点击继续。
+    observe:
+      successAny:
+        - selector: "text=项目"
+        - selector: "text=工作台"
+      timeoutMinutes: 20
+      onUnknown: pause_for_user

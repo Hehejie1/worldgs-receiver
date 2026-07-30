@@ -1,8 +1,5 @@
 # WorldGS Receiver
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-
 WorldGS Receiver 是电脑端本地接收服务。手机端扫描 Receiver 页面二维码后，可以把当前采集任务包上传到电脑指定目录。
 
 这套能力目前有两种使用方式：
@@ -102,7 +99,7 @@ macOS / Linux:
 Windows:
 
 ```bat
-start_receiver.bat --port 8788 --output C:\\WorldGS_Imports
+start_receiver.bat --port 8788 --output C:\WorldGS_Imports
 ```
 
 ### 直接用当前 Python 环境启动
@@ -126,11 +123,11 @@ python -m pytest
 
 - 只构建 Python sidecar：
   - macOS: `bash desktop/scripts/build_sidecar_macos.sh`
-  - Windows: `powershell -ExecutionPolicy Bypass -File .\\desktop\\scripts\\build_sidecar_windows.ps1`
+  - Windows: `powershell -ExecutionPolicy Bypass -File .\desktop\scripts\build_sidecar_windows.ps1`
   - Linux: `bash desktop/scripts/build_sidecar_linux.sh`
 - 构建完整桌面安装包：
   - macOS: `bash desktop/scripts/build_desktop_macos.sh`
-  - Windows: `powershell -ExecutionPolicy Bypass -File .\\desktop\\scripts\\build_desktop_windows.ps1`
+  - Windows: `powershell -ExecutionPolicy Bypass -File .\desktop\scripts\build_desktop_windows.ps1`
   - Linux: `bash desktop/scripts/build_desktop_linux.sh`
 
 完整说明、先决条件和产物目录见 [desktop/README.md](desktop/README.md)。

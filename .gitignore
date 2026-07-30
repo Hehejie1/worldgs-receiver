@@ -16,6 +16,7 @@ ENV/
 build/
 *.manifest
 *.spec
+!desktop/sidecar/*.spec
 
 # Node.js
 node_modules/

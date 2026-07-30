@@ -1,22 +1,33 @@
+# -*- mode: python ; coding: utf-8 -*-
 from pathlib import Path
-
+from PyInstaller.utils.hooks import collect_submodules, collect_data_files
 
 project_root = Path(SPECPATH).resolve().parents[1]
 entrypoint = project_root / "desktop" / "sidecar" / "entrypoint.py"
 
-hiddenimports = [
-    "worldgs_receiver.app",
-    "worldgs_receiver.cli",
+hiddenimports = []
+hiddenimports += collect_submodules('worldgs_receiver')
+hiddenimports += [
+    "playwright",
     "playwright.sync_api",
+    "playwright.async_api",
+    "uvicorn",
+    "uvicorn.logging",
+    "uvicorn.loops",
+    "uvicorn.loops.auto",
+    "uvicorn.protocols",
+    "uvicorn.protocols.http",
+    "uvicorn.protocols.http.auto",
+    "uvicorn.protocols.websockets",
+    "uvicorn.protocols.websockets.auto",
+    "uvicorn.lifespan",
+    "uvicorn.lifespan.on",
+    "fastapi",
 ]
 
-datas = [
-    (str(project_root / "worldgs_receiver" / "static"), "worldgs_receiver/static"),
-    (
-        str(project_root / "worldgs_receiver" / "automation_platform_configs"),
-        "worldgs_receiver/automation_platform_configs",
-    ),
-]
+datas = []
+# Collect worldgs_receiver package data
+datas += collect_data_files('worldgs_receiver', includes=['static/*.png', 'automation_platform_configs/*.yaml'])
 
 a = Analysis(
     [str(entrypoint)],
@@ -30,12 +41,14 @@ a = Analysis(
     excludes=[],
     noarchive=False,
 )
+
 pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
     a.binaries,
+    a.zipfiles,
     a.datas,
     [],
     name="receiver_sidecar",
@@ -43,5 +56,12 @@ exe = EXE(
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
     console=True,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
 )

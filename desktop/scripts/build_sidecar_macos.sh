@@ -55,9 +55,10 @@ cd "$PROJECT_ROOT"
 PYTHON_BIN="$(resolve_python_bin)"
 read -r -a PYTHON_CMD <<< "$PYTHON_BIN"
 
-"${PYTHON_CMD[@]}" -m pip install --user --upgrade pip setuptools wheel
+"${PYTHON_CMD[@]}" -m pip install --upgrade pip setuptools wheel
 "${PYTHON_CMD[@]}" -m pip install -e '.[desktop]'
-if [[ "$(sysctl -in hw.optional.arm64 2>/dev/null || echo 0)" == "1" && "$PYTHON_BIN" == *"arm64"* ]]; then
+# Skip pydantic-core rebuild in CI (GitHub Actions Python is already correct architecture)
+if [[ -z "${CI:-}" && "$(sysctl -in hw.optional.arm64 2>/dev/null || echo 0)" == "1" && "$PYTHON_BIN" == *"arm64"* ]]; then
   PYDANTIC_CORE_VERSION="$("${PYTHON_CMD[@]}" -c 'from importlib.metadata import version; print(version("pydantic-core"))')"
   RUSTUP_TOOLCHAIN="${RUSTUP_TOOLCHAIN:-stable-aarch64-apple-darwin}" "${PYTHON_CMD[@]}" -m pip install --user --force-reinstall --no-binary pydantic-core "pydantic-core==$PYDANTIC_CORE_VERSION"
 fi
