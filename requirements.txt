@@ -1,0 +1,6 @@
+fastapi>=0.111.0
+uvicorn>=0.30.0
+python-multipart>=0.0.9
+qrcode>=7.4.2
+playwright>=1.45.0
+PyYAML>=6.0.1
