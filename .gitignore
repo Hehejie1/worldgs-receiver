@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# PyInstaller
+build/
+*.manifest
+*.spec
+
+# Node.js
+node_modules/
+
+# Rust / Tauri
+desktop/src-tauri/target/
+desktop/src-tauri/gen/
+desktop/src-tauri/binaries/
+!desktop/src-tauri/binaries/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local data
+*.db
+*.sqlite
+*.log
+
+# Environment
+.env
+.env.local
+
+# Playwright browsers
+build/ms-playwright/
+
+# PyInstaller cache
+build/pyinstaller-cache/
