@@ -148,8 +148,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            macos-x86_64/*.dmg
-            macos-aarch64/*.dmg
-            windows/*.msi
-            windows/*.exe
-            linux/*.deb
+            macos-x86_64/**/*.dmg
+            macos-aarch64/**/*.dmg
+            windows/**/*.msi
+            windows/**/*.exe
+            linux/**/*.deb
