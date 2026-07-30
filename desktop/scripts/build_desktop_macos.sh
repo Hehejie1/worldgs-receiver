@@ -41,7 +41,7 @@ case "$HOST_TRIPLE" in
     ;;
 esac
 
-"$SCRIPT_DIR/build_sidecar_macos.sh"
+bash "$SCRIPT_DIR/build_sidecar_macos.sh"
 
 mkdir -p "$BINARIES_ROOT"
 TARGET_BIN="$PROJECT_ROOT/desktop/src-tauri/binaries/receiver_sidecar-$HOST_TRIPLE"

@@ -13,7 +13,7 @@ if [[ -z "${HOST_TRIPLE:-}" ]]; then
   exit 1
 fi
 
-"$SCRIPT_DIR/build_sidecar_linux.sh"
+bash "$SCRIPT_DIR/build_sidecar_linux.sh"
 
 mkdir -p "$BINARIES_ROOT"
 TARGET_BIN="$BINARIES_ROOT/receiver_sidecar-$HOST_TRIPLE"
